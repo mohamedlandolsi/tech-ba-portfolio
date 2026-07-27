@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Landolsi · Technical Business Analyst</title>
+<meta name="description" content="Technical Business Analyst bridging business objectives with scalable, AI-native SaaS architecture.">
+<link rel="icon" type="image/png" href="portfolio-logo.png">
+<link rel="apple-touch-icon" href="portfolio-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-bg:#0E1420;
+    --panel:#151C2C;
+    --panel-2:#1B2438;
+    --paper:#E8E6DE;
+    --paper-dim:#8D96AA;
+    --paper-faint:#5E6779;
+    --amber:#FFB300;
+    --cyan:#6FE3C9;
+    --line:rgba(232,230,222,0.10);
+    --line-strong:rgba(232,230,222,0.18);
+    --radius:3px;
+    --display:'Space Grotesk',sans-serif;
+    --body:'IBM Plex Sans',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+    --nav-bg:rgba(14,20,32,0.86);
+  }
+  html[data-theme="light"]{
+    --ink-bg:#EEEFEA;
+    --panel:#E4E6DF;
+    --panel-2:#D9DBD3;
+    --paper:#171A22;
+    --paper-dim:#4C5364;
+    --paper-faint:#767E8F;
+    --amber:#B8730A;
+    --cyan:#0E7C6B;
+    --line:rgba(23,26,34,0.10);
+    --line-strong:rgba(23,26,34,0.18);
+    --nav-bg:rgba(238,239,234,0.86);
+  }
+  body, .chip, .project-card, .artifact, .matrix, .matrix-col, .doc-table td, .footer-links a, nav.topnav, .theme-toggle{
+    transition:background-color .25s ease, border-color .25s ease, color .25s ease;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink-bg);
+    color:var(--paper);
+    font-family:var(--body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--amber);color:var(--ink-bg);}
+  a{color:var(--cyan);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--amber);outline-offset:3px;}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  nav.topnav{
+    position:sticky; top:0; z-index:10;
+    background:var(--nav-bg);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:920px;margin:0 auto;padding:0 28px;
+    display:flex; align-items:center; justify-content:space-between;
+    height:56px;
+  }
+  .nav-mark{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+    margin-right:16px;
+  }
+  .nav-mark img{
+    height:22px;
+    width:auto;
+    display:block;
+  }
+  .nav-links{
+    display:flex; gap:4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:0;
+    min-width:0;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-links a{
+    font-family:var(--mono);
+    font-size:.76rem;
+    letter-spacing:.03em;
+    color:var(--paper-dim);
+    padding:8px 12px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+    text-decoration:none;
+    transition:color .15s ease, background .15s ease;
+  }
+  .nav-links a:hover{color:var(--paper);text-decoration:none;}
+  .nav-links a.active{color:var(--ink-bg);background:var(--cyan);}
+
+  .theme-toggle{
+    flex-shrink:0;
+    margin-left:14px;
+    width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    color:var(--paper-dim);
+    cursor:pointer;
+    transition:color .15s ease, border-color .15s ease, background .25s ease;
+  }
+  .theme-toggle:hover{color:var(--cyan);border-color:var(--cyan);}
+  .theme-toggle svg{width:16px;height:16px;}
+  .theme-toggle .icon-sun{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-moon{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-sun{display:block;}
+
+  /* background grid texture */
+  .bg-grid{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 85%);
+    opacity:.5;
+  }
+
+  /* ---------- TRACE LINE (signature element) ---------- */
+  .trace{
+    position:relative;
+    padding-left:46px;
+  }
+  .trace::before{
+    content:"";
+    position:absolute;
+    left:11px; top:6px; bottom:6px;
+    width:1px;
+    background:linear-gradient(to bottom, transparent, var(--line-strong) 4%, var(--line-strong) 96%, transparent);
+  }
+  .trace-node{
+    position:relative;
+    padding-bottom:64px;
+  }
+  .trace-node:last-child{padding-bottom:0;}
+  .trace-node::before{
+    content:"";
+    position:absolute;
+    left:-46px; top:6px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--ink-bg);
+    border:1.5px solid var(--amber);
+  }
+  .trace-id{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.06em;
+    color:var(--amber);
+    display:block;
+    margin-bottom:8px;
+  }
+
+  /* ---------- HEADER / HERO ---------- */
+  header{
+    position:relative; z-index:1;
+    padding:88px 0 76px;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:var(--paper-dim);
+    letter-spacing:.08em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .eyebrow .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 0 4px rgba(111,227,201,0.12);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(2.4rem, 5.6vw, 4rem);
+    letter-spacing:-0.02em;
+    line-height:1.04;
+    color:var(--paper);
+    max-width:14ch;
+  }
+  h1 span{color:var(--paper-faint);}
+  .role-line{
+    font-family:var(--mono);
+    font-size:1rem;
+    color:var(--cyan);
+    margin-top:18px;
+    letter-spacing:.02em;
+  }
+  .thesis{
+    font-size:1.08rem;
+    color:var(--paper-dim);
+    max-width:56ch;
+    margin-top:22px;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:34px;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:var(--paper);
+    border:1px solid var(--line-strong);
+    padding:7px 12px;
+    border-radius:var(--radius);
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:var(--panel);
+  }
+  .chip.status{
+    color:var(--amber);
+    border-color:rgba(255,179,0,0.35);
+  }
+
+  .proof-strip{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    margin-top:40px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .proof-item{
+    flex:1 1 140px;
+    padding:16px 18px;
+    border-right:1px solid var(--line-strong);
+    background:var(--panel);
+  }
+  .proof-item:last-child{border-right:none;}
+  .proof-num{
+    display:block;
+    font-family:var(--display);
+    font-weight:700;
+    font-size:1.6rem;
+    color:var(--cyan);
+    line-height:1;
+  }
+  .proof-label{
+    display:block;
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--paper-faint);
+    letter-spacing:.03em;
+    margin-top:6px;
+  }
+  .cv-link{
+    display:inline-block;
+    margin-top:22px;
+    font-family:var(--mono);
+    font-size:.82rem;
+    color:var(--amber);
+    border:1px solid rgba(255,179,0,0.35);
+    padding:9px 16px;
+    border-radius:var(--radius);
+    text-decoration:none;
+  }
+  .cv-link:hover{background:rgba(255,179,0,0.08);text-decoration:none;}
+
+  .proof-strip--inline{
+    margin-top:14px;
+    margin-bottom:20px;
+  }
+  .proof-strip--inline .proof-item{
+    padding:12px 16px;
+  }
+  .proof-strip--inline .proof-num{
+    font-size:1.3rem;
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{
+    position:relative; z-index:1;
+    padding:72px 0;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:42px;
+  }
+  .sec-title{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.5rem;
+    letter-spacing:-0.01em;
+  }
+  .sec-tag{
+    font-family:var(--mono);
+    font-size:.72rem;
+    color:var(--paper-faint);
+    letter-spacing:.08em;
+    white-space:nowrap;
+  }
+
+  .provide-lead{
+    font-size:1.04rem;
+    color:var(--paper-dim);
+    max-width:64ch;
+    margin-bottom:32px;
+  }
+  .provide-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .provide-col{
+    background:var(--panel);
+    padding:24px 26px;
+  }
+  .provide-col ul{list-style:none;margin-top:14px;}
+  .provide-col ul:first-of-type{margin-top:16px;}
+  .provide-col li{
+    color:var(--paper-dim);
+    font-size:.9rem;
+    padding:6px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .provide-col li:last-child{border-bottom:none;}
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px 20px;
+    margin-bottom:6px;
+  }
+  .exp-role{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--paper);
+  }
+  .exp-org{
+    color:var(--cyan);
+    font-weight:500;
+  }
+  .exp-period{
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:var(--paper-faint);
+    white-space:nowrap;
+  }
+  .exp-loc{
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:var(--paper-faint);
+    margin-bottom:16px;
+  }
+  ul.bullets{
+    list-style:none;
+  }
+  ul.bullets li{
+    position:relative;
+    padding-left:20px;
+    color:var(--paper-dim);
+    font-size:.96rem;
+    margin-bottom:9px;
+  }
+  ul.bullets li::before{
+    content:"→";
+    position:absolute; left:0; top:0;
+    color:var(--paper-faint);
+    font-family:var(--mono);
+  }
+  ul.bullets li strong{color:var(--paper);font-weight:500;}
+
+  /* ---------- ARTIFACT PANEL (docs & diagrams) ---------- */
+  .artifact{
+    margin-top:20px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:var(--panel);
+    overflow:hidden;
+  }
+  .artifact summary{
+    list-style:none;
+    cursor:pointer;
+    padding:13px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-family:var(--mono);
+    font-size:.78rem;
+    color:var(--cyan);
+    letter-spacing:.02em;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .artifact summary::-webkit-details-marker{display:none;}
+  .artifact summary .chevron{
+    color:var(--paper-faint);
+    transition:transform .2s ease;
+    font-size:.7rem;
+  }
+  .artifact[open] summary .chevron{transform:rotate(90deg);}
+  .artifact summary:hover{background:var(--panel-2);}
+  .artifact-body{
+    padding:6px 18px 22px;
+    border-top:1px solid var(--line);
+  }
+  .artifact-note{
+    font-size:.78rem;
+    color:var(--paper-faint);
+    font-style:italic;
+    margin-top:14px;
+  }
+  .diagram-frame{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:14px;
+    margin-top:14px;
+  }
+  .diagram-frame svg{width:100%;height:auto;display:block;}
+  .doc-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:14px;
+    font-size:.82rem;
+  }
+  .doc-table th{
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.06em;
+    color:var(--paper-faint);
+    text-align:left;
+    padding:8px 10px;
+    border-bottom:1px solid var(--line-strong);
+  }
+  .doc-table td{
+    padding:9px 10px;
+    color:var(--paper-dim);
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .doc-table td.mono{font-family:var(--mono);color:var(--cyan);font-size:.78rem;}
+  .doc-table tr:last-child td{border-bottom:none;}
+
+  /* ---------- PROJECT / CASE STUDY ---------- */
+  .project-card{
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:32px;
+  }
+  .project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-bottom:18px;
+  }
+  .project-name{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:1.4rem;
+  }
+  .project-sub{
+    font-family:var(--mono);
+    font-size:.82rem;
+    color:var(--cyan);
+    margin-top:6px;
+  }
+  .status-badge{
+    font-family:var(--mono);
+    font-size:.7rem;
+    letter-spacing:.06em;
+    color:var(--amber);
+    border:1px solid rgba(255,179,0,0.35);
+    padding:5px 10px;
+    border-radius:var(--radius);
+    white-space:nowrap;
+  }
+  .project-desc{
+    color:var(--paper-dim);
+    font-size:.98rem;
+    max-width:66ch;
+    margin-bottom:26px;
+  }
+  .spec-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .spec-cell{
+    background:var(--panel-2);
+    padding:18px 20px;
+  }
+  .spec-label{
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.08em;
+    color:var(--paper-faint);
+    margin-bottom:8px;
+  }
+  .spec-value{
+    font-size:.92rem;
+    color:var(--paper);
+  }
+  .spec-value.muted{color:var(--paper-dim);font-style:italic;font-size:.88rem;}
+
+  /* ---------- PHASE TRACKER ---------- */
+  .phase-tracker{
+    margin-top:24px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .phase-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 16px;
+    background:var(--panel-2);
+    border-bottom:1px solid var(--line);
+    font-size:.86rem;
+  }
+  .phase-row:last-child{border-bottom:none;}
+  .phase-dot{
+    width:8px;height:8px;border-radius:50%;
+    flex-shrink:0;
+    background:var(--paper-faint);
+  }
+  .phase-row.done .phase-dot{background:var(--cyan);}
+  .phase-row.active .phase-dot{background:var(--amber);box-shadow:0 0 0 4px rgba(255,179,0,0.16);}
+  .phase-id{
+    font-family:var(--mono);
+    font-size:.72rem;
+    color:var(--paper-faint);
+    width:34px;
+    flex-shrink:0;
+  }
+  .phase-name{flex:1;color:var(--paper);}
+  .phase-row.pending .phase-name{color:var(--paper-dim);}
+  .phase-status{
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--paper-faint);
+    flex-shrink:0;
+  }
+  .phase-row.done .phase-status{color:var(--cyan);}
+  .phase-row.active .phase-status{color:var(--amber);}
+
+  .diagram-img{
+    width:100%;
+    height:auto;
+    display:block;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:#fff;
+    margin-top:14px;
+  }
+  .diagram-caption{
+    font-size:.78rem;
+    color:var(--paper-faint);
+    margin-top:8px;
+    margin-bottom:6px;
+  }
+
+  /* ---------- SKILLS MATRIX ---------- */
+  .matrix{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .matrix-col{
+    background:var(--panel);
+    padding:22px 24px;
+  }
+  .matrix-head{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.07em;
+    color:var(--amber);
+    margin-bottom:16px;
+    display:block;
+  }
+  .matrix-col ul{list-style:none;}
+  .matrix-col li{
+    color:var(--paper-dim);
+    font-size:.9rem;
+    padding:6px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .matrix-col li:last-child{border-bottom:none;}
+  .evidence-link{
+    display:inline-block;
+    margin-top:14px;
+    font-family:var(--mono);
+    font-size:.72rem;
+    color:var(--cyan);
+  }
+
+  /* ---------- EDU / LANG ---------- */
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  .edu-item{margin-bottom:20px;}
+  .edu-item:last-child{margin-bottom:0;}
+  .edu-degree{font-weight:500;color:var(--paper);font-size:.96rem;}
+  .edu-school{color:var(--paper-dim);font-size:.88rem;margin-top:2px;}
+  .edu-period{font-family:var(--mono);font-size:.76rem;color:var(--paper-faint);margin-top:4px;}
+  .lang-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:.9rem;
+  }
+  .lang-row:last-child{border-bottom:none;}
+  .lang-name{color:var(--paper);}
+  .lang-level{font-family:var(--mono);font-size:.78rem;color:var(--paper-dim);}
+
+  /* ---------- FOOTER / CONTACT ---------- */
+  footer{
+    position:relative; z-index:1;
+    padding:80px 0 60px;
+    text-align:center;
+  }
+  .footer-title{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+    letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  .footer-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-top:28px;
+  }
+  .footer-links a{
+    font-family:var(--mono);
+    font-size:.85rem;
+    color:var(--paper);
+    border:1px solid var(--line-strong);
+    padding:11px 20px;
+    border-radius:var(--radius);
+    background:var(--panel);
+    text-decoration:none;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .footer-links a:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+    text-decoration:none;
+  }
+  .foot-note{
+    margin-top:56px;
+    font-family:var(--mono);
+    font-size:.72rem;
+    color:var(--paper-faint);
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  @media (max-width:720px){
+    .trace{padding-left:30px;}
+    .trace-node::before{left:-30px;}
+    .two-col{grid-template-columns:1fr;gap:32px;}
+    header{padding:64px 0 52px;}
+    section{padding:56px 0;}
+    .project-card{padding:22px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <span class="nav-mark"><img src="portfolio-logo.png" alt="Mohamed Landolsi logo"></span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#provide">Approach</a>
+        <a href="#experience">Experience</a>
+        <a href="#project">Project</a>
+        <a href="#skills">Skills</a>
+        <a href="#background">Background</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode" type="button">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow"><span class="dot"></span>AVAILABLE FOR RELOCATION · EUROPE</div>
+    <h1>Mohamed Landolsi<br><span>Technical Business Analyst</span></h1>
+    <div class="role-line">requirements → architecture → outcome</div>
+    <p class="thesis">I translate business objectives into requirements, API contracts, and data workflows for AI-native SaaS products, then trace every line back to why it matters.</p>
+    <div class="hero-meta">
+      <span class="chip">📍 Tunisia</span>
+      <span class="chip">Open to remote or relocation</span>
+      <span class="chip status">● Seeking Technical BA roles in the EU</span>
+    </div>
+    <a class="cv-link" href="Mohamed-Landolsi-CV.pdf" target="_blank" rel="noopener">↓ Download CV (PDF)</a>
+  </header>
+
+  <section id="provide">
+    <div class="sec-head">
+      <span class="sec-title">What I Provide</span>
+      <span class="sec-tag">ROLE &amp; DELIVERABLES</span>
+    </div>
+
+    <p class="provide-lead">I make sure engineering builds the right thing, and that stakeholders can see, trace, and verify why each piece exists. I sit between product/leadership and engineering, translating "what the business needs" into specs a dev team can build from without guessing.</p>
+
+    <div class="provide-grid">
+      <div class="provide-col">
+        <span class="matrix-head">WHAT I HAND A TEAM</span>
+        <ul>
+          <li>Business Requirements Documents (BRD)</li>
+          <li>Requirements Traceability Matrix (RTM)</li>
+          <li>User stories with acceptance criteria</li>
+          <li>BPMN process models (As-Is / To-Be)</li>
+          <li>ERDs and data models</li>
+          <li>API contracts</li>
+          <li>Prioritized, weighted backlogs</li>
+          <li>KPI frameworks</li>
+          <li>UAT test plans</li>
+        </ul>
+      </div>
+      <div class="provide-col">
+        <span class="matrix-head">BEST FIT FOR</span>
+        <ul>
+          <li>AI-native / SaaS startups</li>
+          <li>Product teams needing a business↔engineering bridge</li>
+          <li>Consultancies running client BA engagements</li>
+        </ul>
+        <span class="matrix-head" style="margin-top:20px;">AS A</span>
+        <ul>
+          <li>Technical Business Analyst</li>
+          <li>Junior Business Analyst</li>
+          <li>Product Analyst</li>
+          <li>Solutions Engineer</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head">
+      <span class="sec-title">Experience</span>
+      <span class="sec-tag">EXP-LOG</span>
+    </div>
+
+    <div class="trace">
+
+      <div class="trace-node" id="exp-wavess">
+        <span class="trace-id">EXP-01 / 12·2025 – 05·2026</span>
+        <div class="exp-head">
+          <span class="exp-role">Business Analyst &amp; Software Engineer Intern <span class="exp-org">· Wavess</span></span>
+          <span class="exp-period">Remote · Berlin, Germany</span>
+        </div>
+        <div class="proof-strip proof-strip--inline">
+          <div class="proof-item"><span class="proof-num">40+</span><span class="proof-label">requirements authored</span></div>
+          <div class="proof-item"><span class="proof-num">3</span><span class="proof-label">services shipped</span></div>
+          <div class="proof-item"><span class="proof-num">6</span><span class="proof-label">production clients served</span></div>
+          <div class="proof-item"><span class="proof-num">8</span><span class="proof-label">actors modeled</span></div>
+        </div>
+        <ul class="bullets">
+          <li>Led requirements elicitation for a 3-service AI-native SaaS platform, authoring <strong>40+ requirements</strong> and an RTM that aligned a 4-person dev team with business goals.</li>
+          <li>Conducted competitive/market analysis and modeled actor-based use cases (8 actors) to define product positioning against six identified market gaps.</li>
+          <li>Evaluated monolith vs. microservices trade-offs, defining a <strong>Federated SOA</strong> and multi-tenant data model (PostgreSQL RLS) balancing cost with GDPR compliance.</li>
+          <li>Built a weighted Jira prioritization matrix (Value 40%, Urgency 25%, Risk 20%, Architectural Dependency 15%), delivering MVP to 6 European clients within a 6-month Lean Scrum cycle.</li>
+          <li>Bridged CEO and engineering, translating AI capabilities (anomaly detection, vector databases, LLM fallback chains) into user stories, acceptance criteria, and KPI frameworks.</li>
+          <li>Integrated third-party services (LLM providers, Apify, Tavily) into the platform's AI pipeline, defining API contracts and data-exchange requirements.</li>
+        </ul>
+
+        <details class="artifact">
+          <summary>View example artifacts: RTM excerpt &amp; architecture diagram <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <table class="doc-table">
+              <thead>
+                <tr><th>ID</th><th>Requirement</th><th>Business Objective</th><th>Test Case</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="mono">FR-014</td><td>System shall route AI queries through a fallback chain if the primary LLM provider times out.</td><td>Maintain 99% uptime for client-facing AI features</td><td class="mono">TC-014</td></tr>
+                <tr><td class="mono">FR-021</td><td>System shall enforce row-level tenant isolation on all client data queries.</td><td>GDPR compliance across EU client base</td><td class="mono">TC-021</td></tr>
+                <tr><td class="mono">FR-033</td><td>System shall log anomaly-detection flags with severity tier for reviewer triage.</td><td>Reduce manual QA review time by 30%</td><td class="mono">TC-033</td></tr>
+              </tbody>
+            </table>
+            <div class="diagram-frame">
+              <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Federated service-oriented architecture diagram">
+                <rect x="255" y="10" width="130" height="34" rx="3" fill="none" stroke="#6FE3C9" stroke-width="1.2"/>
+                <text x="320" y="31" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="11">API Gateway</text>
+                <line x1="320" y1="44" x2="90" y2="88" stroke="#5E6779" stroke-width="1"/>
+                <line x1="320" y1="44" x2="320" y2="88" stroke="#5E6779" stroke-width="1"/>
+                <line x1="320" y1="44" x2="550" y2="88" stroke="#5E6779" stroke-width="1"/>
+                <rect x="20" y="88" width="140" height="40" rx="3" fill="#1B2438" stroke="#3a4356" stroke-width="1"/>
+                <text x="90" y="112" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10.5">Identity &amp; Auth</text>
+                <rect x="250" y="88" width="140" height="40" rx="3" fill="#1B2438" stroke="#FFB300" stroke-width="1"/>
+                <text x="320" y="112" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10.5">AI Content Engine</text>
+                <rect x="480" y="88" width="140" height="40" rx="3" fill="#1B2438" stroke="#3a4356" stroke-width="1"/>
+                <text x="550" y="112" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10.5">GTM Intelligence</text>
+                <line x1="90" y1="128" x2="320" y2="164" stroke="#5E6779" stroke-width="1"/>
+                <line x1="320" y1="128" x2="320" y2="164" stroke="#5E6779" stroke-width="1"/>
+                <line x1="550" y1="128" x2="320" y2="164" stroke="#5E6779" stroke-width="1"/>
+                <rect x="190" y="164" width="260" height="30" rx="3" fill="none" stroke="#6FE3C9" stroke-width="1.2" stroke-dasharray="3 3"/>
+                <text x="320" y="184" text-anchor="middle" fill="#8D96AA" font-family="IBM Plex Mono" font-size="10">PostgreSQL · multi-tenant (RLS)</text>
+              </svg>
+            </div>
+            <p class="artifact-note">Illustrative reconstruction for portfolio purposes: client-confidential values generalized; structure and role reflect the actual engagement.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="trace-node">
+        <span class="trace-id">EXP-02 / 06·2025 – 08·2025</span>
+        <div class="exp-head">
+          <span class="exp-role">Functional Analyst &amp; AI Engineer Intern <span class="exp-org">· AYCORP Technologies</span></span>
+          <span class="exp-period">Tunis, Tunisia</span>
+        </div>
+        <ul class="bullets">
+          <li>Mapped end-to-end workflows for an AI interview platform across 4 stages, wrote functional specs, and prototyped real-time voice sessions to align technical delivery with business objectives.</li>
+        </ul>
+
+        <details class="artifact">
+          <summary>View example artifact: process flow (BPMN-style) <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <div class="diagram-frame">
+              <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four stage AI interview platform process flow">
+                <circle cx="24" cy="65" r="10" fill="none" stroke="#6FE3C9" stroke-width="1.2"/>
+                <rect x="58" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="117" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Candidate</text>
+                <text x="117" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Intake</text>
+                <line x1="176" y1="65" x2="212" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
+                <rect x="212" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#FFB300"/>
+                <text x="271" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">AI Voice</text>
+                <text x="271" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Interview</text>
+                <line x1="330" y1="65" x2="366" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
+                <rect x="366" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="425" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Automated</text>
+                <text x="425" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Scoring</text>
+                <line x1="484" y1="65" x2="520" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
+                <rect x="520" y="35" width="100" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="570" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Recruiter</text>
+                <text x="570" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Review</text>
+                <defs>
+                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 Z" fill="#5E6779"/>
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+            <p class="artifact-note">Illustrative reconstruction for portfolio purposes: client-confidential values generalized; structure and role reflect the actual engagement.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="trace-node">
+        <span class="trace-id">EXP-03 / 06·2025 – 09·2025</span>
+        <div class="exp-head">
+          <span class="exp-role">Functional Analyst &amp; Developer <span class="exp-org">· Stade Nabeulien Rugby Club</span></span>
+          <span class="exp-period">Nabeul, Tunisia</span>
+        </div>
+        <ul class="bullets">
+          <li>Elicited requirements from non-technical coaching staff, translating operational needs into functional specs and a scheduling, attendance, and CSV-reporting platform, cutting manual work by ~2–3 hours/week.</li>
+        </ul>
+
+        <details class="artifact">
+          <summary>View example artifact: scheduling workflow <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <div class="diagram-frame">
+              <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scheduling and attendance process flow">
+                <circle cx="24" cy="65" r="10" fill="none" stroke="#6FE3C9" stroke-width="1.2"/>
+                <rect x="56" y="35" width="110" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="111" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Coach Submits</text>
+                <text x="111" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Session Request</text>
+                <line x1="166" y1="65" x2="200" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow2)"/>
+                <rect x="200" y="35" width="110" height="60" rx="6" fill="#1B2438" stroke="#FFB300"/>
+                <text x="255" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Availability</text>
+                <text x="255" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Check</text>
+                <line x1="310" y1="65" x2="344" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow2)"/>
+                <rect x="344" y="35" width="110" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="399" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Schedule</text>
+                <text x="399" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Generated</text>
+                <line x1="454" y1="65" x2="488" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow2)"/>
+                <rect x="488" y="35" width="128" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
+                <text x="552" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">Attendance +</text>
+                <text x="552" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="9.5">CSV Export</text>
+                <defs>
+                  <marker id="arrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L6,3 L0,6 Z" fill="#5E6779"/>
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+            <p class="artifact-note">Illustrative reconstruction for portfolio purposes, reflecting the actual delivered workflow.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="trace-node" id="exp-millesima">
+        <span class="trace-id">EXP-04 / 02·2023 – 05·2023</span>
+        <div class="exp-head">
+          <span class="exp-role">Web Developer Intern <span class="exp-org">· Millesima Technologies</span></span>
+          <span class="exp-period">Tunis, Tunisia</span>
+        </div>
+        <ul class="bullets">
+          <li>Gathered user requirements, documented RESTful API specs for a VOD platform (MyVioo), and contributed to sprint planning and functional validation within a 2-week Agile cycle.</li>
+        </ul>
+
+        <details class="artifact">
+          <summary>View example artifact: API contract excerpt <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <table class="doc-table">
+              <thead>
+                <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="mono">GET</td><td class="mono">/videos</td><td>List catalog videos with pagination and category filter</td></tr>
+                <tr><td class="mono">GET</td><td class="mono">/videos/{id}/stream</td><td>Return signed stream URL for a given title</td></tr>
+                <tr><td class="mono">POST</td><td class="mono">/users/{id}/watchlist</td><td>Add a video to a user's watchlist</td></tr>
+              </tbody>
+            </table>
+            <p class="artifact-note">Illustrative reconstruction for portfolio purposes, reflecting the actual documented contract.</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="project">
+    <div class="sec-head">
+      <span class="sec-title">Featured Case Study</span>
+      <span class="sec-tag">PRJ-01</span>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <div>
+          <div class="project-name">HypertroQ</div>
+          <div class="project-sub">Science-based hypertrophy tracking app · real-time per-muscle volume &amp; progressive overload detection</div>
+        </div>
+        <span class="status-badge">● PHASE 4 OF 12 · PROCESS MODELING</span>
+      </div>
+      <p class="project-desc">
+        A self-directed, solo-founder BA engagement: running the full requirements-to-architecture lifecycle on an original product, the same discipline practiced at Wavess, but fully public and updated as each phase lands. Differentiated by real-time per-muscle volume tracking (MEV/MAV/MRV) and multi-method progressive overload detection, benchmarked against Hevy, Strong, Fitbod, and Tracked.
+      </p>
+
+      <div class="phase-tracker">
+        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH0</span><span class="phase-name">Project Charter</span><span class="phase-status">Done</span></div>
+        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH1</span><span class="phase-name">Stakeholder &amp; Elicitation Plan</span><span class="phase-status">Done</span></div>
+        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH2</span><span class="phase-name">Business Requirements Document</span><span class="phase-status">Done</span></div>
+        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH3</span><span class="phase-name">Gap Analysis (4 competitors)</span><span class="phase-status">Done</span></div>
+        <div class="phase-row active"><span class="phase-dot"></span><span class="phase-id">PH4</span><span class="phase-name">Process Models (BPMN, 6 processes)</span><span class="phase-status">In progress</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH5</span><span class="phase-name">Requirements Catalog &amp; RTM</span><span class="phase-status">Next</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH6</span><span class="phase-name">Use Cases &amp; User Stories</span><span class="phase-status">Pending</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH7</span><span class="phase-name">Data &amp; System Analysis (ERD)</span><span class="phase-status">Pending</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH8</span><span class="phase-name">Architecture Trade-off (ADR)</span><span class="phase-status">Pending</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH9</span><span class="phase-name">Prioritization &amp; Roadmap</span><span class="phase-status">Pending</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH10</span><span class="phase-name">UAT Planning</span><span class="phase-status">Pending</span></div>
+        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH11</span><span class="phase-name">Package &amp; Case Study</span><span class="phase-status">Pending</span></div>
+      </div>
+
+      <details class="artifact">
+        <summary>View artifacts: Charter, Elicitation Plan &amp; Gap Analysis <span class="chevron">▶</span></summary>
+        <div class="artifact-body">
+          <table class="doc-table">
+            <thead><tr><th>Artifact</th><th>Key output</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Charter</td><td>Business objective, scope (in/out), success criteria: artifacts must be handoff-ready and open questions must be surfaced, not silently resolved.</td></tr>
+              <tr><td class="mono">Elicitation Plan</td><td>3 stakeholder groups mapped by power/interest; techniques matched per group (competitor-review mining, screened surveys, technical feasibility workshops).</td></tr>
+              <tr><td class="mono">Gap Analysis</td><td>Benchmarked against Hevy, Strong, Fitbod &amp; Tracked. Confirmed real-time per-muscle volume tracking as the strongest surviving differentiator once overstated claims were corrected.</td></tr>
+            </tbody>
+          </table>
+          <p class="artifact-note">14+ open questions logged and tracked across phases rather than resolved by assumption, each tied to the phase and decision-owner that will close it.</p>
+        </div>
+      </details>
+
+      <details class="artifact">
+        <summary>View real process models: P1 Live Workout Session &amp; P2 Authentication <span class="chevron">▶</span></summary>
+        <div class="artifact-body">
+          <p class="artifact-note" style="margin-top:0;">6 processes modeled at Level 1–2 (P0–P5) from structured BPMN specs: pools, lanes, gateways, and business rules written out before drawing. Two are shown below.</p>
+          <a href="P1-live-workout-session.png" target="_blank" rel="noopener">
+            <img class="diagram-img" src="P1-live-workout-session.png" alt="P1: Live Workout Session Logging, BPMN diagram with User, App Frontend, and Backend Services lanes">
+          </a>
+          <p class="diagram-caption">P1: Live Workout Session Logging. The core differentiator loop: set entry → RIR-weighted volume calculation → real-time feedback → overload detection (click to view full size).</p>
+          <a href="P2-authentication.png" target="_blank" rel="noopener">
+            <img class="diagram-img" src="P2-authentication.png" alt="P2: Authentication, BPMN diagram with User, App Frontend, and Auth Service lanes">
+          </a>
+          <p class="diagram-caption">P2: Authentication. Session/token validation, OAuth and email/password paths, first-time vs. returning-user routing (click to view full size).</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <span class="sec-title">Skills</span>
+      <span class="sec-tag">CAPABILITY MATRIX</span>
+    </div>
+    <div class="matrix">
+      <div class="matrix-col">
+        <span class="matrix-head">BUSINESS ANALYSIS</span>
+        <ul>
+          <li>Requirements Engineering (RTM, NFRs)</li>
+          <li>BPMN (As-Is / To-Be)</li>
+          <li>User Stories &amp; Acceptance Criteria</li>
+          <li>Backlog Prioritization</li>
+          <li>Stakeholder Elicitation</li>
+          <li>UAT · Gap Analysis · UML</li>
+        </ul>
+        <a class="evidence-link" href="#exp-wavess">→ RTM &amp; elicitation evidence, EXP-01</a>
+      </div>
+      <div class="matrix-col">
+        <span class="matrix-head">SYSTEMS &amp; DATA</span>
+        <ul>
+          <li>API Contract Design</li>
+          <li>Data Modeling &amp; ERDs</li>
+          <li>Bounded-Context Analysis</li>
+          <li>Architectural Trade-off Analysis</li>
+          <li>SQL</li>
+        </ul>
+        <a class="evidence-link" href="#exp-millesima">→ API contract evidence, EXP-04</a>
+      </div>
+      <div class="matrix-col">
+        <span class="matrix-head">AI INTEGRATION</span>
+        <ul>
+          <li>LLM / RAG Pipelines</li>
+          <li>Vector Databases</li>
+          <li>Prompt Engineering</li>
+          <li>AI-Assisted Analysis &amp; Documentation</li>
+        </ul>
+        <a class="evidence-link" href="#exp-wavess">→ AI/RAG evidence, EXP-01</a>
+      </div>
+      <div class="matrix-col">
+        <span class="matrix-head">TOOLS</span>
+        <ul>
+          <li>Jira · Camunda Modeler · Draw.io</li>
+          <li>Postman</li>
+          <li>Supabase · PostgreSQL · Redis</li>
+        </ul>
+        <a class="evidence-link" href="#project">→ BPMN diagrams, PRJ-01</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="background">
+    <div class="sec-head">
+      <span class="sec-title">Background</span>
+      <span class="sec-tag">EDU / LANG</span>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="edu-item">
+          <div class="edu-degree">Software Engineering, Engineer's Degree (Master's-equivalent)</div>
+          <div class="edu-school">IT Business School, Nabeul, Tunisia</div>
+          <div class="edu-period">2023 – 07·2026</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Bachelor's Degree, Information Technology</div>
+          <div class="edu-school">Higher Institute of Technological Studies of Nabeul</div>
+          <div class="edu-period">2020 – 2023</div>
+        </div>
+      </div>
+      <div>
+        <div class="lang-row"><span class="lang-name">Arabic</span><span class="lang-level">Native</span></div>
+        <div class="lang-row"><span class="lang-name">English</span><span class="lang-level">Professional working (B2)</span></div>
+        <div class="lang-row"><span class="lang-name">French</span><span class="lang-level">Intermediate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-title">Let's trace the next requirement.</div>
+    <p style="color:var(--paper-dim);max-width:46ch;margin:0 auto;">Open to Technical BA / Junior BA / Product Analyst roles across Europe, remote (EMEA-friendly hours) or relocation. UTC+1, Tunisia.</p>
+    <div class="footer-links">
+      <a href="mailto:mohamedlandolsi300@gmail.com">Email</a>
+      <a href="https://linkedin.com/in/mohamedlandolsi" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/mohamedlandolsi" target="_blank" rel="noopener">GitHub</a>
+      <a href="Mohamed-Landolsi-CV.pdf" target="_blank" rel="noopener">Download CV</a>
+    </div>
+    <div class="foot-note">Tunisia · UTC+1 · Technical Business Analyst · Last traced 2026</div>
+  </footer>
+
+</div>
+
+<script>
+  // theme toggle (respects system preference on first load, in-memory only)
+  const rootEl = document.documentElement;
+  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  rootEl.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const current = rootEl.getAttribute('data-theme');
+    rootEl.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+  });
+
+  // active nav-link highlighting
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const trackedSections = ['provide','experience','project','skills','background','contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  trackedSections.forEach(sec => navObserver.observe(sec));
+
+  const els = document.querySelectorAll('section, header');
+  els.forEach(el => el.classList.add('reveal'));
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(el => io.observe(el));
+  } else {
+    els.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
