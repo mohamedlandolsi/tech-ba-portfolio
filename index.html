@@ -594,12 +594,90 @@
     border-radius:var(--radius);
     background:#fff;
     margin-top:14px;
+    cursor:zoom-in;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .diagram-img:hover{
+    border-color:var(--cyan);
   }
   .diagram-caption{
     font-size:.78rem;
     color:var(--paper-faint);
     margin-top:8px;
     margin-bottom:6px;
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(6,9,15,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:48px 24px;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .lightbox.open{
+    display:flex;
+    opacity:1;
+  }
+  .lightbox-inner{
+    max-width:min(1400px, 94vw);
+    max-height:88vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+  .lightbox-inner img{
+    max-width:100%;
+    max-height:76vh;
+    width:auto;
+    height:auto;
+    display:block;
+    border-radius:var(--radius);
+    background:#fff;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-caption{
+    font-family:var(--mono);
+    font-size:.82rem;
+    color:var(--paper-dim);
+    text-align:center;
+    max-width:80ch;
+  }
+  .lightbox-close{
+    position:absolute;
+    top:22px;
+    right:26px;
+    width:40px;height:40px;
+    border-radius:50%;
+    border:1px solid rgba(232,230,222,0.25);
+    background:rgba(255,255,255,0.06);
+    color:#E8E6DE;
+    font-size:1.1rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .lightbox-close:hover{
+    background:rgba(255,255,255,0.14);
+    border-color:var(--cyan);
+  }
+  .lightbox-hint{
+    font-family:var(--mono);
+    font-size:.7rem;
+    color:var(--paper-faint);
+  }
+  @media (max-width:720px){
+    .lightbox{padding:70px 16px 24px;}
+    .lightbox-close{top:16px;right:16px;}
   }
 
   /* ---------- SKILLS MATRIX ---------- */
@@ -838,6 +916,15 @@
         </ul>
 
         <details class="artifact">
+          <summary>View the problem: fragmented GTM tooling landscape <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <p class="artifact-note" style="margin-top:0;">From the PFE report's introduction: the fragmented, manual-handoff tooling landscape most B2B GTM teams navigate, contrasted with the unified platform approach.</p>
+            <img class="diagram-img" src="wavess-fragmented-gtm-tooling.png" alt="Fragmented B2B GTM tooling landscape versus unified platform approach">
+            <p class="diagram-caption">Fragmented tooling landscape vs. unified platform approach (click to view full size).</p>
+          </div>
+        </details>
+
+        <details class="artifact">
           <summary>View example artifacts: RTM excerpt &amp; architecture diagram <span class="chevron">▶</span></summary>
           <div class="artifact-body">
             <table class="doc-table">
@@ -871,6 +958,68 @@
               </svg>
             </div>
             <p class="artifact-note">Illustrative reconstruction for portfolio purposes: client-confidential values generalized; structure and role reflect the actual engagement.</p>
+          </div>
+        </details>
+
+        <details class="artifact">
+          <summary>View architecture trade-off analysis <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <table class="doc-table">
+              <thead><tr><th></th><th>Monolith</th><th>Federated SOA (chosen)</th><th>Microservices</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">Team fit</td><td>1 team</td><td>Small team, per-service ownership</td><td>Requires dedicated per-service teams</td></tr>
+                <tr><td class="mono">Failure isolation</td><td>One crash affects all domains</td><td>Service crash stays within one domain</td><td>Partial failures complex to diagnose across network</td></tr>
+                <tr><td class="mono">Data security</td><td>Shared schema</td><td>Schema isolation per context</td><td>Independent databases</td></tr>
+              </tbody>
+            </table>
+            <p class="artifact-note">Rationale: bounded-context separation (DDD) without microservices' distributed-transaction overhead, fitting a small team and a tight cost ceiling.</p>
+          </div>
+        </details>
+
+        <details class="artifact">
+          <summary>View methodology &amp; KPI framework <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <table class="doc-table">
+              <thead><tr><th>Why Scrum</th><th>Lean-team adaptation</th></tr></thead>
+              <tbody>
+                <tr><td>Product scope shifted with client feedback</td><td>Founder acted as Product Owner and Scrum Master; direct client meetings, Jira backlog, sprint priorities</td></tr>
+                <tr><td>Features needed calibration on real usage</td><td>3× weekly stand-ups; source on GitHub, async coordination on Slack</td></tr>
+                <tr><td>External API constraints surfaced late</td><td>Formal backlog, sprint backlog, Definition of Done, and RTM maintained throughout</td></tr>
+              </tbody>
+            </table>
+            <table class="doc-table" style="margin-top:18px;">
+              <thead><tr><th>KPI category</th><th>Metric</th><th>Target</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">Functional</td><td>Content approval rate</td><td>High rate, strong brand alignment and prompt quality</td></tr>
+                <tr><td class="mono">Operational</td><td>Signal freshness delay</td><td>Minimize delay between signal capture and dashboard</td></tr>
+                <tr><td class="mono">Quality</td><td>Tenant isolation incident count</td><td>Zero cross-tenant access events</td></tr>
+                <tr><td class="mono">Economic</td><td>LLM cost per tenant</td><td>Keep the large majority of requests within free-tier quotas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <details class="artifact">
+          <summary>View real use case diagrams: Portal, Tropicc &amp; Oceanss <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <p class="artifact-note" style="margin-top:0;">From the PFE report's functional analysis chapter, one use case diagram per bounded-context service.</p>
+                        <img class="diagram-img" src="wavess-uc-portal.png" alt="Portal use case diagram: identity and core management">
+            <p class="diagram-caption">Portal, identity and core management (click to view full size).</p>
+                        <img class="diagram-img" src="wavess-uc-tropicc.png" alt="Tropicc use case diagram: LinkedIn content generation">
+            <p class="diagram-caption">Tropicc, LinkedIn content generation (click to view full size).</p>
+                        <img class="diagram-img" src="wavess-uc-oceanss.png" alt="Oceanss use case diagram: go-to-market intelligence">
+            <p class="diagram-caption">Oceanss, go-to-market intelligence (click to view full size).</p>
+          </div>
+        </details>
+
+        <details class="artifact">
+          <summary>View real BPMN workflows: content generation &amp; GTM intelligence <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <p class="artifact-note" style="margin-top:0;">To-be process models from the PFE report, modeling actor responsibilities, decision points, and cross-service data movement.</p>
+                        <img class="diagram-img" src="wavess-bpmn-content-gen.png" alt="BPMN diagram of the to-be LinkedIn content generation process">
+            <p class="diagram-caption">To-be LinkedIn content generation process (click to view full size).</p>
+                        <img class="diagram-img" src="wavess-bpmn-gtm-intel.png" alt="BPMN collaboration diagram of the to-be GTM intelligence workflow">
+            <p class="diagram-caption">To-be GTM intelligence workflow, collaboration diagram (click to view full size).</p>
           </div>
         </details>
       </div>
@@ -1044,13 +1193,9 @@
         <summary>View real process models: P1 Live Workout Session &amp; P2 Authentication <span class="chevron">▶</span></summary>
         <div class="artifact-body">
           <p class="artifact-note" style="margin-top:0;">6 processes modeled at Level 1–2 (P0–P5) from structured BPMN specs: pools, lanes, gateways, and business rules written out before drawing. Two are shown below.</p>
-          <a href="P1-live-workout-session.png" target="_blank" rel="noopener">
-            <img class="diagram-img" src="P1-live-workout-session.png" alt="P1: Live Workout Session Logging, BPMN diagram with User, App Frontend, and Backend Services lanes">
-          </a>
+                      <img class="diagram-img" src="P1-live-workout-session.png" alt="P1: Live Workout Session Logging, BPMN diagram with User, App Frontend, and Backend Services lanes">
           <p class="diagram-caption">P1: Live Workout Session Logging. The core differentiator loop: set entry → RIR-weighted volume calculation → real-time feedback → overload detection (click to view full size).</p>
-          <a href="P2-authentication.png" target="_blank" rel="noopener">
-            <img class="diagram-img" src="P2-authentication.png" alt="P2: Authentication, BPMN diagram with User, App Frontend, and Auth Service lanes">
-          </a>
+                      <img class="diagram-img" src="P2-authentication.png" alt="P2: Authentication, BPMN diagram with User, App Frontend, and Auth Service lanes">
           <p class="diagram-caption">P2: Authentication. Session/token validation, OAuth and email/password paths, first-time vs. returning-user routing (click to view full size).</p>
         </div>
       </details>
@@ -1148,6 +1293,15 @@
 
 </div>
 
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer" type="button">✕</button>
+  <div class="lightbox-inner">
+    <img id="lightboxImg" src="" alt="">
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+    <p class="lightbox-hint">Click outside the image, press Esc, or use the ✕ to close</p>
+  </div>
+</div>
+
 <script>
   // theme toggle (respects system preference on first load, in-memory only)
   const rootEl = document.documentElement;
@@ -1157,6 +1311,36 @@
   document.getElementById('themeToggle').addEventListener('click', () => {
     const current = rootEl.getAttribute('data-theme');
     rootEl.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+  });
+
+  // lightbox for diagram images
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function openLightbox(src, alt){
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    lightboxCaption.textContent = alt || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    lightboxImg.src = '';
+  }
+
+  document.querySelectorAll('img.diagram-img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
   });
 
   // active nav-link highlighting
