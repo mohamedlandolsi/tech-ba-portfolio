@@ -632,15 +632,91 @@
     align-items:center;
     gap:14px;
   }
+  .lightbox-stage{
+    position:relative;
+    width:min(94vw, 1400px);
+    height:min(76vh, 76vh);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    touch-action:none;
+  }
   .lightbox-inner img{
-    max-width:100%;
-    max-height:76vh;
+    max-width:none;
+    max-height:none;
     width:auto;
     height:auto;
     display:block;
     border-radius:var(--radius);
     background:#fff;
     box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    transform:translate(0, 0);
+    transform-origin:center center;
+    transition:none;
+    will-change:transform;
+    user-select:none;
+    -webkit-user-drag:none;
+    cursor:default;
+  }
+  .lightbox-inner img.is-zoomed{
+    cursor:grab;
+  }
+  .lightbox-inner img.is-panning{
+    cursor:grabbing;
+    transition:none;
+  }
+  .lightbox-controls{
+    position:absolute;
+    right:12px;
+    bottom:12px;
+    display:flex;
+    gap:8px;
+    padding:8px;
+    background:rgba(14,20,32,0.74);
+    border:1px solid rgba(232,230,222,0.18);
+    border-radius:999px;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  .lightbox-controls button{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:1px solid rgba(232,230,222,0.18);
+    background:rgba(255,255,255,0.06);
+    color:#E8E6DE;
+    font-family:var(--mono);
+    font-size:.92rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .15s ease, border-color .15s ease, color .15s ease, opacity .15s ease;
+  }
+  .lightbox-controls button:hover:not(:disabled){
+    background:rgba(255,255,255,0.14);
+    border-color:var(--cyan);
+    color:var(--cyan);
+  }
+  .lightbox-controls button:disabled{
+    opacity:.45;
+    cursor:default;
+  }
+  .lightbox-zoom-readout{
+    min-width:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 8px;
+    border-radius:999px;
+    border:1px solid rgba(232,230,222,0.12);
+    background:rgba(255,255,255,0.04);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:.74rem;
+    letter-spacing:.02em;
   }
   .lightbox-caption{
     font-family:var(--mono);
@@ -1296,7 +1372,15 @@
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer" type="button">✕</button>
   <div class="lightbox-inner">
-    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-stage" id="lightboxStage">
+      <img id="lightboxImg" src="" alt="">
+      <div class="lightbox-controls" aria-label="Image zoom controls">
+        <button id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button>
+        <button id="lightboxZoomReset" type="button" aria-label="Reset zoom">1:1</button>
+        <button id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button>
+        <span class="lightbox-zoom-readout" id="lightboxZoomReadout">100%</span>
+      </div>
+    </div>
     <p class="lightbox-caption" id="lightboxCaption"></p>
     <p class="lightbox-hint">Click outside the image, press Esc, or use the ✕ to close</p>
   </div>
@@ -1315,32 +1399,155 @@
 
   // lightbox for diagram images
   const lightbox = document.getElementById('lightbox');
+  const lightboxStage = document.getElementById('lightboxStage');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxCaption = document.getElementById('lightboxCaption');
   const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxZoomOut = document.getElementById('lightboxZoomOut');
+  const lightboxZoomIn = document.getElementById('lightboxZoomIn');
+  const lightboxZoomReset = document.getElementById('lightboxZoomReset');
+  const lightboxZoomReadout = document.getElementById('lightboxZoomReadout');
+
+  const lightboxZoom = {
+    zoom: 1,
+    fitScale: 1,
+    x: 0,
+    y: 0,
+    min: 0.5,
+    max: 2,
+    step: 0.5,
+    isPanning: false,
+    startX: 0,
+    startY: 0,
+    startPanX: 0,
+    startPanY: 0,
+  };
+
+  function applyLightboxTransform(){
+    const displayScale = lightboxZoom.fitScale * lightboxZoom.zoom;
+    lightboxImg.style.width = `${Math.max(1, Math.round(lightboxImg.naturalWidth * displayScale))}px`;
+    lightboxImg.style.height = `${Math.max(1, Math.round(lightboxImg.naturalHeight * displayScale))}px`;
+    lightboxImg.style.transform = `translate(${lightboxZoom.x}px, ${lightboxZoom.y}px)`;
+    lightboxImg.classList.toggle('is-zoomed', lightboxZoom.zoom > 1);
+    lightboxImg.classList.toggle('is-panning', lightboxZoom.isPanning);
+    lightboxZoomOut.disabled = lightboxZoom.zoom <= lightboxZoom.min;
+    lightboxZoomReset.disabled = lightboxZoom.zoom === lightboxZoom.min && lightboxZoom.x === 0 && lightboxZoom.y === 0;
+    lightboxZoomReadout.textContent = `${Math.round(displayScale * 100)}%`;
+    lightboxClose.setAttribute('aria-label', lightboxZoom.zoom > 1 ? 'Close image viewer and reset zoom' : 'Close image viewer');
+  }
+
+  function updateLightboxZoomBounds(){
+    if (!lightboxImg.naturalWidth || !lightboxImg.naturalHeight) return;
+
+    const stageRect = lightboxStage.getBoundingClientRect();
+    if (!stageRect.width || !stageRect.height) return;
+
+    const fitScale = Math.min(
+      stageRect.width / lightboxImg.naturalWidth,
+      stageRect.height / lightboxImg.naturalHeight,
+      1
+    );
+
+    lightboxZoom.fitScale = Number(fitScale.toFixed(4));
+    lightboxZoom.max = Math.max(1, Number((1 / lightboxZoom.fitScale).toFixed(2)));
+    if (lightboxZoom.zoom > lightboxZoom.max) {
+      lightboxZoom.zoom = lightboxZoom.max;
+      lightboxZoom.x = 0;
+      lightboxZoom.y = 0;
+    }
+    applyLightboxTransform();
+  }
+
+  function setLightboxZoom(nextScale){
+    lightboxZoom.zoom = Math.min(lightboxZoom.max, Math.max(lightboxZoom.min, Number(nextScale.toFixed(2))));
+    if (lightboxZoom.zoom === lightboxZoom.min) {
+      lightboxZoom.x = 0;
+      lightboxZoom.y = 0;
+    }
+    applyLightboxTransform();
+  }
+
+  function resetLightboxZoom(){
+    lightboxZoom.zoom = 1;
+    lightboxZoom.x = 0;
+    lightboxZoom.y = 0;
+    lightboxZoom.isPanning = false;
+    applyLightboxTransform();
+  }
 
   function openLightbox(src, alt){
     lightboxImg.src = src;
     lightboxImg.alt = alt || '';
     lightboxCaption.textContent = alt || '';
+    resetLightboxZoom();
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (lightboxImg.complete) {
+      requestAnimationFrame(updateLightboxZoomBounds);
+    }
   }
   function closeLightbox(){
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
     lightboxImg.src = '';
+    resetLightboxZoom();
   }
 
   document.querySelectorAll('img.diagram-img').forEach(img => {
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
+  lightboxImg.addEventListener('load', updateLightboxZoomBounds);
+  lightboxZoomIn.addEventListener('click', () => setLightboxZoom(lightboxZoom.zoom + lightboxZoom.step));
+  lightboxZoomOut.addEventListener('click', () => setLightboxZoom(lightboxZoom.zoom - lightboxZoom.step));
+  lightboxZoomReset.addEventListener('click', resetLightboxZoom);
+  lightboxStage.addEventListener('wheel', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    e.preventDefault();
+    setLightboxZoom(lightboxZoom.zoom + (e.deltaY < 0 ? 0.25 : -0.25));
+  }, { passive: false });
+  lightboxStage.addEventListener('pointerdown', (e) => {
+    if (lightboxZoom.zoom <= 1 || e.button !== 0) return;
+    if (e.target.closest('.lightbox-controls')) return;
+    lightboxZoom.isPanning = true;
+    lightboxZoom.startX = e.clientX;
+    lightboxZoom.startY = e.clientY;
+    lightboxZoom.startPanX = lightboxZoom.x;
+    lightboxZoom.startPanY = lightboxZoom.y;
+    lightboxStage.setPointerCapture(e.pointerId);
+    applyLightboxTransform();
+  });
+  lightboxStage.addEventListener('pointermove', (e) => {
+    if (!lightboxZoom.isPanning) return;
+    lightboxZoom.x = lightboxZoom.startPanX + (e.clientX - lightboxZoom.startX);
+    lightboxZoom.y = lightboxZoom.startPanY + (e.clientY - lightboxZoom.startY);
+    applyLightboxTransform();
+  });
+  function stopLightboxPan(e){
+    if (!lightboxZoom.isPanning) return;
+    lightboxZoom.isPanning = false;
+    applyLightboxTransform();
+    try {
+      lightboxStage.releasePointerCapture(e.pointerId);
+    } catch (err) {
+      void err;
+    }
+  }
+  lightboxStage.addEventListener('pointerup', stopLightboxPan);
+  lightboxStage.addEventListener('pointercancel', stopLightboxPan);
   lightboxClose.addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox) closeLightbox();
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === '+' || e.key === '=') setLightboxZoom(lightboxZoom.zoom + lightboxZoom.step);
+    if (e.key === '-' || e.key === '_') setLightboxZoom(lightboxZoom.zoom - lightboxZoom.step);
+    if (e.key === '0') resetLightboxZoom();
+  });
+
+  window.addEventListener('resize', () => {
+    if (lightbox.classList.contains('open')) updateLightboxZoomBounds();
   });
 
   // active nav-link highlighting
