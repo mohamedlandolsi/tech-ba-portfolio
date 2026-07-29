@@ -1271,38 +1271,20 @@
           <span class="exp-period">Tunis, Tunisia</span>
         </div>
         <ul class="bullets">
-          <li>Mapped end-to-end workflows for an AI interview platform across 4 stages, wrote functional specs, and prototyped real-time voice sessions to align technical delivery with business objectives.</li>
+          <li>Analyzed the recruitment workflow for InterQ, an AI-powered interview platform, and translated the business problem into clear stakeholder, functional, and non-functional requirements.</li>
+          <li>Modeled the system with use cases, database entities, and a cloud-native architecture covering authentication, template management, interview conduction, and post-interview analysis.</li>
+          <li>Contributed to implementation and validation of the core product experience, including real-time interviews, AI scoring, dashboard views, and deployment-ready settings workflows.</li>
         </ul>
 
         <details class="artifact">
-          <summary>View example artifact: process flow (BPMN-style) <span class="chevron">▶</span></summary>
+          <summary>View report figures: architecture, modeling, and UI artifacts <span class="chevron">▶</span></summary>
           <div class="artifact-body">
-            <div class="diagram-frame">
-              <svg viewBox="0 0 640 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four stage AI interview platform process flow">
-                <circle cx="24" cy="65" r="10" fill="none" stroke="#6FE3C9" stroke-width="1.2"/>
-                <rect x="58" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
-                <text x="117" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Candidate</text>
-                <text x="117" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Intake</text>
-                <line x1="176" y1="65" x2="212" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
-                <rect x="212" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#FFB300"/>
-                <text x="271" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">AI Voice</text>
-                <text x="271" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Interview</text>
-                <line x1="330" y1="65" x2="366" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
-                <rect x="366" y="35" width="118" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
-                <text x="425" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Automated</text>
-                <text x="425" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Scoring</text>
-                <line x1="484" y1="65" x2="520" y2="65" stroke="#5E6779" stroke-width="1" marker-end="url(#arrow)"/>
-                <rect x="520" y="35" width="100" height="60" rx="6" fill="#1B2438" stroke="#3a4356"/>
-                <text x="570" y="61" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Recruiter</text>
-                <text x="570" y="75" text-anchor="middle" fill="#E8E6DE" font-family="IBM Plex Mono" font-size="10">Review</text>
-                <defs>
-                  <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                    <path d="M0,0 L6,3 L0,6 Z" fill="#5E6779"/>
-                  </marker>
-                </defs>
-              </svg>
-            </div>
-            <p class="artifact-note">Illustrative reconstruction for portfolio purposes: client-confidential values generalized; structure and role reflect the actual engagement.</p>
+            <img class="diagram-img" src="InterQ/architecture-minimal.png" alt="InterQ architecture diagram from the report">
+            <p class="diagram-caption">Architecture diagram from the InterQ report (click to view full size).</p>
+            <img class="diagram-img" src="InterQ/entity-relationship-diagram.png" alt="InterQ entity relationship diagram from the report">
+            <p class="diagram-caption">Entity-relationship diagram from the InterQ report (click to view full size).</p>
+            <img class="diagram-img" src="InterQ/InterQ-use-case.png" alt="InterQ use case diagram from the report">
+            <p class="diagram-caption">Use case diagram from the InterQ report (click to view full size).</p>
           </div>
         </details>
       </div>
@@ -1314,7 +1296,9 @@
           <span class="exp-period">Nabeul, Tunisia</span>
         </div>
         <ul class="bullets">
-          <li>Elicited requirements from non-technical coaching staff, translating operational needs into functional specs and a scheduling, attendance, and CSV-reporting platform, cutting manual work by ~2–3 hours/week.</li>
+          <li>Elicited requirements from coaching and administrative staff to capture session-planning, attendance, and reporting needs in business-friendly terms.</li>
+          <li>Translated those needs into functional specifications and a web-based workflow covering training requests, availability checks, attendance tracking, and CSV exports.</li>
+          <li>Built and refined the solution in close collaboration with club stakeholders, reducing manual coordination effort and improving the reliability of weekly reporting.</li>
         </ul>
 
         <details class="artifact">
@@ -1357,7 +1341,9 @@
           <span class="exp-period">Tunis, Tunisia</span>
         </div>
         <ul class="bullets">
-          <li>Gathered user requirements, documented RESTful API specs for a VOD platform (MyVioo), and contributed to sprint planning and functional validation within a 2-week Agile cycle.</li>
+          <li>Collected and clarified functional requirements for a VOD streaming platform, focusing on content discovery, playback access, and user watchlist behavior.</li>
+          <li>Documented RESTful API contracts and endpoint behaviors to support frontend-backend alignment and accelerate implementation discussions.</li>
+          <li>Contributed to sprint planning and functional validation within a 2-week Agile cycle, helping translate business needs into testable delivery items.</li>
         </ul>
 
         <details class="artifact">
@@ -1368,12 +1354,12 @@
                 <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
               </thead>
               <tbody>
-                <tr><td class="mono">GET</td><td class="mono">/videos</td><td>List catalog videos with pagination and category filter</td></tr>
-                <tr><td class="mono">GET</td><td class="mono">/videos/{id}/stream</td><td>Return signed stream URL for a given title</td></tr>
-                <tr><td class="mono">POST</td><td class="mono">/users/{id}/watchlist</td><td>Add a video to a user's watchlist</td></tr>
+                <tr><td class="mono">GET</td><td class="mono">/videos</td><td>List catalog titles with pagination, search, and category filters</td></tr>
+                <tr><td class="mono">GET</td><td class="mono">/videos/{id}/stream</td><td>Return an access token or signed stream URL for playback</td></tr>
+                <tr><td class="mono">POST</td><td class="mono">/users/{id}/watchlist</td><td>Add a selected video to a user's saved watchlist</td></tr>
               </tbody>
             </table>
-            <p class="artifact-note">Illustrative reconstruction for portfolio purposes, reflecting the actual documented contract.</p>
+            <p class="artifact-note">Illustrative reconstruction for portfolio purposes, reflecting the actual documented contract structure and business intent.</p>
           </div>
         </details>
       </div>
