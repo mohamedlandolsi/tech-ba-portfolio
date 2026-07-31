@@ -606,27 +606,29 @@
     margin-top:24px;
     padding:28px 0;
   }
-  .phase-workflow{
+  /* Each row is a flex line of phase-item + phase-arrow elements */
+  .phase-row{
     display:flex;
-    flex-wrap:wrap;
-    align-items:stretch;
-    gap:16px 12px;
-    position:relative;
-    justify-content:flex-start;
+    align-items:flex-start;
+    gap:0;
+    margin-bottom:28px;
+    flex-wrap:nowrap;
+  }
+  .phase-row:last-child{
+    margin-bottom:0;
   }
   .phase-item{
     display:flex;
     flex-direction:column;
     align-items:center;
-    position:relative;
     z-index:1;
-    min-width:90px;
+    width:100px;
     flex:0 0 auto;
     padding:8px 6px;
   }
   .phase-node{
-    width:36px;
-    height:36px;
+    width:38px;
+    height:38px;
     border-radius:50%;
     background:var(--panel-2);
     border:2px solid var(--amber);
@@ -634,43 +636,69 @@
     align-items:center;
     justify-content:center;
     font-family:var(--mono);
-    font-size:.72rem;
+    font-size:.75rem;
     color:var(--amber);
     font-weight:600;
     transition:border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
     box-shadow:0 0 0 4px rgba(255,179,0,0.08);
+    flex-shrink:0;
   }
   .phase-item:hover .phase-node{
     transform:scale(1.1);
     box-shadow:0 0 0 6px rgba(255,179,0,0.16);
+    background:rgba(255,179,0,0.06);
   }
-  /* Arrow connector between phases */
-  .phase-item:not(:last-child)::after{
-    content:'→';
-    position:absolute;
-    top:10px;
-    left:calc(100% + 6px);
-    color:var(--amber);
-    font-size:1.1rem;
-    font-weight:bold;
-    opacity:0.5;
-    transition:opacity .25s ease, transform .25s ease;
+  /* Inline SVG arrow connector between two phase-items in the same row */
+  .phase-arrow{
+    display:flex;
+    align-items:flex-start;
+    padding-top:10px; /* align vertically with node centre (38px node, 8px padding top) */
+    flex:1 1 auto;
+    min-width:20px;
+    pointer-events:none;
+    overflow:visible;
   }
-  .phase-item:hover::after{
-    opacity:1;
-    transform:translateX(3px);
+  .phase-arrow svg{
+    width:100%;
+    height:20px;
+    overflow:visible;
+    display:block;
+  }
+  .phase-arrow .arrow-line{
+    stroke:var(--amber);
+    stroke-width:1.5;
+    stroke-opacity:0.4;
+    stroke-dasharray:4 3;
+    fill:none;
+    transition:stroke-opacity .3s ease, stroke-dasharray .3s ease;
+  }
+  .phase-arrow .arrow-head{
+    fill:var(--amber);
+    opacity:0.4;
+    transition:opacity .3s ease, filter .3s ease;
+  }
+  /* Brighten arrows when the surrounding row is hovered */
+  .phase-row:hover .phase-arrow .arrow-line{
+    stroke-opacity:0.85;
+    stroke-dasharray:none;
+  }
+  .phase-row:hover .phase-arrow .arrow-head{
+    opacity:0.9;
+    filter:drop-shadow(0 0 4px rgba(255,179,0,0.6));
   }
   .phase-label{
-    font-family:var(--mono);
-    font-size:.58rem;
-    color:var(--paper-faint);
+    font-family:var(--body);
+    font-size:.72rem;
+    font-weight:500;
+    color:var(--paper-dim);
     text-align:center;
     margin-top:10px;
-    line-height:1.35;
+    line-height:1.3;
     max-width:100%;
     transition:color .25s ease;
     word-wrap:break-word;
-    hyphens:auto;
+    hyphens:none;
+    letter-spacing:.01em;
   }
   .phase-item:hover .phase-label{
     color:var(--amber);
@@ -1076,20 +1104,11 @@
     section{padding:56px 0;}
     .project-card{padding:22px;}
     .phase-tracker{padding:20px 0;}
-    .phase-workflow{gap:12px 8px;}
-    .phase-item{min-width:80px;padding:6px 4px;}
+    .phase-row{flex-wrap:wrap;margin-bottom:20px;gap:0;}
+    .phase-item{width:80px;padding:6px 4px;}
     .phase-node{width:32px;height:32px;font-size:.66rem;}
-    .phase-label{font-size:.54rem;margin-top:8px;}
-    /* Mobile arrow - point down */
-    .phase-item:not(:last-child)::after{
-      content:'↓';
-      top:auto;
-      left:50%;
-      transform:translateX(-50%);
-    }
-    .phase-item:hover::after{
-      transform:translateX(-50%) translateY(3px);
-    }
+    .phase-arrow{padding-top:13px;min-width:12px;}
+    .phase-label{font-size:.64rem;margin-top:8px;}
   }
 </style>
 </head>
@@ -1432,18 +1451,79 @@
       </p>
 
       <div class="phase-tracker">
-        <div class="phase-workflow">
+        <!-- Row 1: phases 0–3 -->
+        <div class="phase-row">
           <div class="phase-item"><span class="phase-node">0</span><span class="phase-label">Project Charter</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">1</span><span class="phase-label">Stakeholder &amp; Elicitation Plan</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">2</span><span class="phase-label">Business Requirements Document</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">3</span><span class="phase-label">Gap Analysis (4 competitors)</span></div>
+        </div>
+        <!-- Row 2: phases 4–7 -->
+        <div class="phase-row">
           <div class="phase-item"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 6 processes)</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">5</span><span class="phase-label">Requirements Catalog &amp; RTM</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">6</span><span class="phase-label">Use Cases &amp; User Stories</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">7</span><span class="phase-label">Data &amp; System Analysis (ERD)</span></div>
+        </div>
+        <!-- Row 3: phases 8–11 -->
+        <div class="phase-row">
           <div class="phase-item"><span class="phase-node">8</span><span class="phase-label">Architecture Trade-off (ADR)</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">9</span><span class="phase-label">Prioritization &amp; Roadmap</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">10</span><span class="phase-label">UAT Planning</span></div>
+          <span class="phase-arrow" aria-hidden="true">
+            <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
+              <polygon class="arrow-head" points="88,5 100,10 88,15"/>
+            </svg>
+          </span>
           <div class="phase-item"><span class="phase-node">11</span><span class="phase-label">Package &amp; Case Study</span></div>
         </div>
       </div>
