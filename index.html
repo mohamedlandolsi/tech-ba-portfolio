@@ -1529,7 +1529,7 @@
     <div class="footer-title">Let's trace the next requirement.</div>
     <p style="color:var(--paper-dim);max-width:46ch;margin:0 auto;">Open to Technical BA / Junior BA / Product Analyst roles. Remote-friendly (EMEA hours) or relocation. UTC+1, Tunisia.</p>
     <div class="footer-links">
-      <a href="mailto:mohamedlandolsi300@gmail.com">Email</a>
+      <a href="#" id="emailCopyBtn">Email</a>
       <a href="https://linkedin.com/in/mohamedlandolsi" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://github.com/mohamedlandolsi" target="_blank" rel="noopener">GitHub</a>
       <a href="Mohamed-Landolsi-CV.pdf" target="_blank" rel="noopener">Download CV</a>
@@ -1847,6 +1847,41 @@
     });
   } else {
     els.forEach(el => el.classList.add('in'));
+  }
+
+  // Email copy functionality - copies email address instead of opening mail client
+  const emailBtn = document.getElementById('emailCopyBtn');
+  if (emailBtn) {
+    emailBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const emailAddress = 'mohamedlandolsi300@gmail.com';
+      navigator.clipboard.writeText(emailAddress).then(function() {
+        const originalText = emailBtn.textContent;
+        emailBtn.textContent = 'Copied!';
+        setTimeout(function() {
+          emailBtn.textContent = originalText;
+        }, 2000);
+      }).catch(function(err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = emailAddress;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          const originalText = emailBtn.textContent;
+          emailBtn.textContent = 'Copied!';
+          setTimeout(function() {
+            emailBtn.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy email:', err);
+        }
+        document.body.removeChild(textArea);
+      });
+    });
   }
 </script>
 
