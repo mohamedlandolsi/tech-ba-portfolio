@@ -629,27 +629,36 @@
     height:36px;
     border-radius:50%;
     background:var(--panel-2);
-    border:2px solid var(--paper-faint);
+    border:2px solid var(--amber);
     display:flex;
     align-items:center;
     justify-content:center;
     font-family:var(--mono);
     font-size:.72rem;
-    color:var(--paper-faint);
+    color:var(--amber);
     font-weight:600;
-    transition:border-color .25s ease, background-color .25s ease, color .25s ease;
+    transition:border-color .25s ease, background-color .25s ease, color .25s ease, transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 0 0 4px rgba(255,179,0,0.08);
   }
-  .phase-item.completed .phase-node{
-    background:var(--cyan);
-    border-color:var(--cyan);
-    color:var(--ink-bg);
+  .phase-item:hover .phase-node{
+    transform:scale(1.1);
+    box-shadow:0 0 0 6px rgba(255,179,0,0.16);
   }
-  .phase-item.current .phase-node{
-    background:var(--amber);
-    border-color:var(--amber);
-    color:var(--ink-bg);
-    box-shadow:0 0 0 4px rgba(255,179,0,0.16);
-    animation:softPulse 2.8s ease-in-out infinite;
+  /* Arrow connector between phases */
+  .phase-item:not(:last-child)::after{
+    content:'→';
+    position:absolute;
+    top:10px;
+    left:calc(100% + 6px);
+    color:var(--amber);
+    font-size:1.1rem;
+    font-weight:bold;
+    opacity:0.5;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .phase-item:hover::after{
+    opacity:1;
+    transform:translateX(3px);
   }
   .phase-label{
     font-family:var(--mono);
@@ -663,12 +672,8 @@
     word-wrap:break-word;
     hyphens:auto;
   }
-  .phase-item.completed .phase-label{
-    color:var(--paper-dim);
-  }
-  .phase-item.current .phase-label{
+  .phase-item:hover .phase-label{
     color:var(--amber);
-    font-weight:500;
   }
 
   .diagram-img{
@@ -1075,6 +1080,16 @@
     .phase-item{min-width:80px;padding:6px 4px;}
     .phase-node{width:32px;height:32px;font-size:.66rem;}
     .phase-label{font-size:.54rem;margin-top:8px;}
+    /* Mobile arrow - point down */
+    .phase-item:not(:last-child)::after{
+      content:'↓';
+      top:auto;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    .phase-item:hover::after{
+      transform:translateX(-50%) translateY(3px);
+    }
   }
 </style>
 </head>
@@ -1418,11 +1433,11 @@
 
       <div class="phase-tracker">
         <div class="phase-workflow">
-          <div class="phase-item completed"><span class="phase-node">0</span><span class="phase-label">Project Charter</span></div>
-          <div class="phase-item completed"><span class="phase-node">1</span><span class="phase-label">Stakeholder &amp; Elicitation Plan</span></div>
-          <div class="phase-item completed"><span class="phase-node">2</span><span class="phase-label">Business Requirements Document</span></div>
-          <div class="phase-item completed"><span class="phase-node">3</span><span class="phase-label">Gap Analysis (4 competitors)</span></div>
-          <div class="phase-item current"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 6 processes)</span></div>
+          <div class="phase-item"><span class="phase-node">0</span><span class="phase-label">Project Charter</span></div>
+          <div class="phase-item"><span class="phase-node">1</span><span class="phase-label">Stakeholder &amp; Elicitation Plan</span></div>
+          <div class="phase-item"><span class="phase-node">2</span><span class="phase-label">Business Requirements Document</span></div>
+          <div class="phase-item"><span class="phase-node">3</span><span class="phase-label">Gap Analysis (4 competitors)</span></div>
+          <div class="phase-item"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 6 processes)</span></div>
           <div class="phase-item"><span class="phase-node">5</span><span class="phase-label">Requirements Catalog &amp; RTM</span></div>
           <div class="phase-item"><span class="phase-node">6</span><span class="phase-label">Use Cases &amp; User Stories</span></div>
           <div class="phase-item"><span class="phase-node">7</span><span class="phase-label">Data &amp; System Analysis (ERD)</span></div>
