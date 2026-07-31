@@ -608,33 +608,25 @@
   }
   .phase-workflow{
     display:flex;
+    flex-wrap:wrap;
     align-items:stretch;
-    gap:0;
+    gap:16px 12px;
     position:relative;
-  }
-  .phase-workflow::before{
-    content:"";
-    position:absolute;
-    top:14px;
-    left:20px;
-    right:20px;
-    height:2px;
-    background:var(--line-strong);
-    z-index:0;
+    justify-content:flex-start;
   }
   .phase-item{
-    flex:1;
     display:flex;
     flex-direction:column;
     align-items:center;
     position:relative;
     z-index:1;
-    min-width:80px;
-    padding:0 4px;
+    min-width:90px;
+    flex:0 0 auto;
+    padding:8px 6px;
   }
   .phase-node{
-    width:32px;
-    height:32px;
+    width:36px;
+    height:36px;
     border-radius:50%;
     background:var(--panel-2);
     border:2px solid var(--paper-faint);
@@ -642,7 +634,7 @@
     align-items:center;
     justify-content:center;
     font-family:var(--mono);
-    font-size:.68rem;
+    font-size:.72rem;
     color:var(--paper-faint);
     font-weight:600;
     transition:border-color .25s ease, background-color .25s ease, color .25s ease;
@@ -661,14 +653,15 @@
   }
   .phase-label{
     font-family:var(--mono);
-    font-size:.60rem;
+    font-size:.58rem;
     color:var(--paper-faint);
     text-align:center;
-    margin-top:12px;
-    line-height:1.4;
+    margin-top:10px;
+    line-height:1.35;
     max-width:100%;
     transition:color .25s ease;
     word-wrap:break-word;
+    hyphens:auto;
   }
   .phase-item.completed .phase-label{
     color:var(--paper-dim);
@@ -1078,12 +1071,10 @@
     section{padding:56px 0;}
     .project-card{padding:22px;}
     .phase-tracker{padding:20px 0;}
-    .phase-workflow{flex-wrap:wrap;gap:12px;}
-    .phase-workflow::before{display:none;}
-    .phase-item{flex:0 0 calc(50% - 6px);min-width:unset;padding:0 2px;}
-    .phase-item:nth-last-child(-n+2):last-child{flex-basis:calc(100% - 6px);}
-    .phase-node{width:28px;height:28px;font-size:.62rem;}
-    .phase-label{font-size:.56rem;margin-top:8px;}
+    .phase-workflow{gap:12px 8px;}
+    .phase-item{min-width:80px;padding:6px 4px;}
+    .phase-node{width:32px;height:32px;font-size:.66rem;}
+    .phase-label{font-size:.54rem;margin-top:8px;}
   }
 </style>
 </head>
