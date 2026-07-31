@@ -1,5 +1,5 @@
-(index.html is a source file, so no additional ignores are needed beyond what might already be in place for typical web projects, but since the current .gitignore is empty and only a single HTML file was modified, no new ignores are necessary)
+(index.html is a source file, so no need to add anything to .gitignore)
 
-```text
+```gitignore
 
 ```

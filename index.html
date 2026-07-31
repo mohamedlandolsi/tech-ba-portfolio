@@ -604,45 +604,77 @@
   /* ---------- PHASE TRACKER ---------- */
   .phase-tracker{
     margin-top:24px;
-    border:1px solid var(--line-strong);
-    border-radius:var(--radius);
-    overflow:hidden;
+    padding:20px 0;
   }
-  .phase-row{
+  .phase-workflow{
+    display:flex;
+    align-items:stretch;
+    gap:0;
+    position:relative;
+  }
+  .phase-workflow::before{
+    content:"";
+    position:absolute;
+    top:14px;
+    left:20px;
+    right:20px;
+    height:2px;
+    background:var(--line-strong);
+    z-index:0;
+  }
+  .phase-item{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    z-index:1;
+    min-width:60px;
+  }
+  .phase-node{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:2px solid var(--paper-faint);
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:10px 16px;
-    background:var(--panel-2);
-    border-bottom:1px solid var(--line);
-    font-size:.86rem;
-  }
-  .phase-row:last-child{border-bottom:none;}
-  .phase-dot{
-    width:8px;height:8px;border-radius:50%;
-    flex-shrink:0;
-    background:var(--paper-faint);
-  }
-  .phase-row.done .phase-dot{background:var(--cyan);}
-  .phase-row.active .phase-dot{background:var(--amber);box-shadow:0 0 0 4px rgba(255,179,0,0.16);}
-  .phase-row.active .phase-dot{animation:softPulse 2.8s ease-in-out infinite;}
-  .phase-id{
+    justify-content:center;
     font-family:var(--mono);
-    font-size:.72rem;
+    font-size:.62rem;
     color:var(--paper-faint);
-    width:34px;
-    flex-shrink:0;
+    font-weight:600;
+    transition:border-color .25s ease, background-color .25s ease, color .25s ease;
   }
-  .phase-name{flex:1;color:var(--paper);}
-  .phase-row.pending .phase-name{color:var(--paper-dim);}
-  .phase-status{
+  .phase-item.completed .phase-node{
+    background:var(--cyan);
+    border-color:var(--cyan);
+    color:var(--ink-bg);
+  }
+  .phase-item.current .phase-node{
+    background:var(--amber);
+    border-color:var(--amber);
+    color:var(--ink-bg);
+    box-shadow:0 0 0 4px rgba(255,179,0,0.16);
+    animation:softPulse 2.8s ease-in-out infinite;
+  }
+  .phase-label{
     font-family:var(--mono);
-    font-size:.7rem;
+    font-size:.64rem;
     color:var(--paper-faint);
-    flex-shrink:0;
+    text-align:center;
+    margin-top:10px;
+    line-height:1.35;
+    max-width:90px;
+    transition:color .25s ease;
   }
-  .phase-row.done .phase-status{color:var(--cyan);}
-  .phase-row.active .phase-status{color:var(--amber);}
+  .phase-item.completed .phase-label{
+    color:var(--paper-dim);
+  }
+  .phase-item.current .phase-label{
+    color:var(--amber);
+    font-weight:500;
+  }
 
   .diagram-img{
     width:100%;
@@ -1043,6 +1075,10 @@
     header{padding:64px 0 52px;}
     section{padding:56px 0;}
     .project-card{padding:22px;}
+    .phase-workflow{flex-wrap:wrap;gap:16px;}
+    .phase-workflow::before{display:none;}
+    .phase-item{flex:0 0 calc(50% - 8px);min-width:unset;}
+    .phase-item:nth-last-child(-n+2):last-child{flex-basis:calc(100% - 8px);}
   }
 </style>
 </head>
@@ -1385,18 +1421,20 @@
       </p>
 
       <div class="phase-tracker">
-        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH0</span><span class="phase-name">Project Charter</span><span class="phase-status">Done</span></div>
-        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH1</span><span class="phase-name">Stakeholder &amp; Elicitation Plan</span><span class="phase-status">Done</span></div>
-        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH2</span><span class="phase-name">Business Requirements Document</span><span class="phase-status">Done</span></div>
-        <div class="phase-row done"><span class="phase-dot"></span><span class="phase-id">PH3</span><span class="phase-name">Gap Analysis (4 competitors)</span><span class="phase-status">Done</span></div>
-        <div class="phase-row active"><span class="phase-dot"></span><span class="phase-id">PH4</span><span class="phase-name">Process Models (BPMN, 6 processes)</span><span class="phase-status">In progress</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH5</span><span class="phase-name">Requirements Catalog &amp; RTM</span><span class="phase-status">Next</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH6</span><span class="phase-name">Use Cases &amp; User Stories</span><span class="phase-status">Pending</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH7</span><span class="phase-name">Data &amp; System Analysis (ERD)</span><span class="phase-status">Pending</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH8</span><span class="phase-name">Architecture Trade-off (ADR)</span><span class="phase-status">Pending</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH9</span><span class="phase-name">Prioritization &amp; Roadmap</span><span class="phase-status">Pending</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH10</span><span class="phase-name">UAT Planning</span><span class="phase-status">Pending</span></div>
-        <div class="phase-row pending"><span class="phase-dot"></span><span class="phase-id">PH11</span><span class="phase-name">Package &amp; Case Study</span><span class="phase-status">Pending</span></div>
+        <div class="phase-workflow">
+          <div class="phase-item completed"><span class="phase-node">0</span><span class="phase-label">Project Charter</span></div>
+          <div class="phase-item completed"><span class="phase-node">1</span><span class="phase-label">Stakeholder &amp; Elicitation Plan</span></div>
+          <div class="phase-item completed"><span class="phase-node">2</span><span class="phase-label">Business Requirements Document</span></div>
+          <div class="phase-item completed"><span class="phase-node">3</span><span class="phase-label">Gap Analysis (4 competitors)</span></div>
+          <div class="phase-item current"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 6 processes)</span></div>
+          <div class="phase-item"><span class="phase-node">5</span><span class="phase-label">Requirements Catalog &amp; RTM</span></div>
+          <div class="phase-item"><span class="phase-node">6</span><span class="phase-label">Use Cases &amp; User Stories</span></div>
+          <div class="phase-item"><span class="phase-node">7</span><span class="phase-label">Data &amp; System Analysis (ERD)</span></div>
+          <div class="phase-item"><span class="phase-node">8</span><span class="phase-label">Architecture Trade-off (ADR)</span></div>
+          <div class="phase-item"><span class="phase-node">9</span><span class="phase-label">Prioritization &amp; Roadmap</span></div>
+          <div class="phase-item"><span class="phase-node">10</span><span class="phase-label">UAT Planning</span></div>
+          <div class="phase-item"><span class="phase-node">11</span><span class="phase-label">Package &amp; Case Study</span></div>
+        </div>
       </div>
 
       <details class="artifact">
