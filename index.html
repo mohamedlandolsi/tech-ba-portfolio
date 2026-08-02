@@ -1444,10 +1444,10 @@
           <div class="project-name">HypertroQ</div>
           <div class="project-sub">Science-based hypertrophy tracking app · real-time per-muscle volume &amp; progressive overload detection</div>
         </div>
-        <span class="status-badge">11 Phases</span>
+        <span class="status-badge">12 Phases · Complete</span>
       </div>
       <p class="project-desc">
-        A self-directed, solo-founder BA engagement: running the full requirements-to-architecture lifecycle on an original product, the same discipline practiced at Wavess, but fully public and updated as each phase lands. Differentiated by real-time per-muscle volume tracking (MEV/MAV/MRV) and multi-method progressive overload detection, benchmarked against Hevy, Strong, Fitbod, and Tracked.
+        A self-directed, solo-founder BA engagement: the full requirements-to-architecture lifecycle on an original product, taken from a raw product-vision document to a buildable, traceable MVP specification, the same discipline practiced at Wavess but fully public. Twelve linked artifacts, 104 requirements each traced to a business objective and a test case, 8 Architecture Decision Records, and 14 user stories, all benchmarked against Hevy, Strong, Fitbod, and Tracked. Differentiated by real-time per-muscle volume tracking (MEV/MAV/MRV) and multi-method progressive overload detection.
       </p>
 
       <div class="phase-tracker">
@@ -1478,7 +1478,7 @@
         </div>
         <!-- Row 2: phases 4–7 -->
         <div class="phase-row">
-          <div class="phase-item"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 6 processes)</span></div>
+          <div class="phase-item"><span class="phase-node">4</span><span class="phase-label">Process Models (BPMN, 9 processes, 36 rules)</span></div>
           <span class="phase-arrow" aria-hidden="true">
             <svg viewBox="0 0 100 20" preserveAspectRatio="none">
               <line class="arrow-line" x1="0" y1="10" x2="88" y2="10"/>
@@ -1544,13 +1544,47 @@
       </details>
 
       <details class="artifact">
-        <summary>View real process models: P1 Live Workout Session &amp; P2 Authentication <span class="chevron">▶</span></summary>
+        <summary>View real process models: 4 rendered BPMN diagrams <span class="chevron">▶</span></summary>
         <div class="artifact-body">
-          <p class="artifact-note" style="margin-top:0;">6 processes modeled at Level 1–2 (P0–P5) from structured BPMN specs: pools, lanes, gateways, and business rules written out before drawing. Two are shown below.</p>
+          <p class="artifact-note" style="margin-top:0;">9 processes specified at Level 1–2 (P0–P5, plus the P1.1–P1.3 sub-processes) from structured BPMN specs, pools, lanes, gateways, and business rules written out before drawing, plus a 10th process (Free-to-Pro Upgrade) added later once the subscription lifecycle needed its own diagram. 36 business rules extracted in total. Four are rendered below.</p>
                       <img class="diagram-img" src="P1-live-workout-session.png" alt="P1: Live Workout Session Logging, BPMN diagram with User, App Frontend, and Backend Services lanes">
           <p class="diagram-caption">P1: Live Workout Session Logging. The core differentiator loop: set entry → RIR-weighted volume calculation → real-time feedback → overload detection (click to view full size).</p>
+                      <img class="diagram-img" src="P1.2-progressive-overload-detection.png" alt="P1.2: Progressive Overload Detection, BPMN diagram of the automated overload engine">
+          <p class="diagram-caption">P1.2: Progressive Overload Detection. Fully automated sub-process: four independent progression checks (weight/rep/RIR/form), then a stagnation counter that raises yellow (4+ sessions) or red (6+ sessions) flags (click to view full size).</p>
                       <img class="diagram-img" src="P2-authentication.png" alt="P2: Authentication, BPMN diagram with User, App Frontend, and Auth Service lanes">
           <p class="diagram-caption">P2: Authentication. Session/token validation, OAuth and email/password paths, first-time vs. returning-user routing (click to view full size).</p>
+                      <img class="diagram-img" src="P-free-to-pro-upgrade.png" alt="Free-to-Pro Upgrade and Subscription Lifecycle, BPMN diagram spanning conversion and lifecycle flows">
+          <p class="diagram-caption">Free-to-Pro Upgrade &amp; Subscription Lifecycle. Added outside the original P0–P5 inventory once ADR-002 (billing model) needed a diagram: trial/plan choice, payment handshake, and four lifecycle chains (renewal, grace, cancellation, refund) (click to view full size).</p>
+        </div>
+      </details>
+
+      <details class="artifact">
+        <summary>View artifacts: Requirements Catalog, RTM &amp; Use Cases (Phases 5–6) <span class="chevron">▶</span></summary>
+        <div class="artifact-body">
+          <table class="doc-table">
+            <thead><tr><th>Artifact</th><th>Key output</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Requirements Catalog &amp; RTM</td><td>92 functional + 12 non-functional requirements (104 total), each traced to one of 3 business objectives, consolidating the 36 BPMN business rules into requirement form.</td></tr>
+              <tr><td class="mono">Use Cases &amp; User Stories</td><td>14 value-slice user stories covering all 104 requirements (orphan-checked), plus 2 formal use cases for the exception-heavy flows and a use-case diagram spec.</td></tr>
+            </tbody>
+          </table>
+          <p class="artifact-note">Full traceability chain worked end to end for FR-SET-06 (real-time per-muscle volume feedback): business objective → BPMN task/rule → user story acceptance criteria → data entity → governing ADR → UAT test case, with nothing left implicit.</p>
+        </div>
+      </details>
+
+      <details class="artifact">
+        <summary>View artifacts: Data Model, Architecture Decisions &amp; Roadmap (Phases 7–10) <span class="chevron">▶</span></summary>
+        <div class="artifact-body">
+          <table class="doc-table">
+            <thead><tr><th>Artifact</th><th>Key output</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Data &amp; System Analysis</td><td>6-context bounded-context map, entity-relationship model, and 5 API contract sketches.</td></tr>
+              <tr><td class="mono">Architecture Decision Records</td><td>8 ADRs (sync conflict policy, billing/entitlement, auth providers, offline-first architecture, volume as derived state, contribution-score governance, backend stack, deferring the AI coach), honestly marked Accepted vs. Proposed rather than all treated as settled.</td></tr>
+              <tr><td class="mono">Prioritization &amp; Roadmap</td><td>Weighted scoring (Value/Urgency/Risk/Dependency) applied to the 14 stories, a Jira-style backlog, a dependency-respecting wave plan, and an ordered MVP cut line.</td></tr>
+              <tr><td class="mono">UAT Plan</td><td>7 acceptance test cases for the critical criteria, with entry/exit criteria and roles, closing the RTM's Test Case ID column.</td></tr>
+            </tbody>
+          </table>
+          <p class="artifact-note">A real trade-off caught mid-analysis: platform in-app-purchase trials generally require a card on file, which contradicts the product doc's "no payment required" 7-day trial. Rather than quietly keep the assumption, ADR-002 surfaced both honest paths and flagged the choice as a founder decision.</p>
         </div>
       </details>
     </div>
