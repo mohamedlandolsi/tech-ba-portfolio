@@ -1431,25 +1431,63 @@
           <span class="exp-period">Tunis, Tunisia</span>
         </div>
         <ul class="bullets">
-          <li>Collected and clarified functional requirements for a VOD streaming platform, focusing on content discovery, playback access, and user watchlist behavior.</li>
-          <li>Documented RESTful API contracts and endpoint behaviors to support frontend-backend alignment and accelerate implementation discussions.</li>
-          <li>Contributed to sprint planning and functional validation within a 2-week Agile cycle, helping translate business needs into testable delivery items.</li>
+          <li>Collected and clarified functional requirements for MyVioo, a white-label VOD platform spanning 8 feature areas — authentication, partner-pack purchasing, channel management, member back-office, content discovery, video playback, profile management, and speaker metadata.</li>
+          <li>Documented RESTful API contracts and endpoint behaviors, supporting frontend-backend alignment across two sprint cycles and accelerating cross-team implementation discussions.</li>
+          <li>Contributed to sprint planning and functional validation within a 2-week Agile cycle, authoring structured test cases and helping translate business needs into testable delivery items.</li>
+          <li><em>End-of-studies project, co-authored with a teammate. Artifacts below reflect my individual requirements-elicitation and modeling contribution.</em></li>
         </ul>
 
         <details class="artifact">
-          <summary>View example artifact: API contract excerpt <span class="chevron">▶</span></summary>
+          <summary>View real artifacts: requirements backlog &amp; use-case modeling <span class="chevron">▶</span></summary>
           <div class="artifact-body">
+            <p class="artifact-note" style="margin-top:0;">Product backlog for MyVioo — 8 features broken into user stories with priority and story-point estimates. End-of-studies project, co-authored with a teammate; artifacts reflect my requirements and modeling contribution.</p>
             <table class="doc-table">
               <thead>
-                <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+                <tr><th>ID</th><th>Feature</th><th>User Story</th><th>Priority</th><th>Pts</th></tr>
               </thead>
               <tbody>
-                <tr><td class="mono">GET</td><td class="mono">/videos</td><td>List catalog titles with pagination, search, and category filters</td></tr>
-                <tr><td class="mono">GET</td><td class="mono">/videos/{id}/stream</td><td>Return an access token or signed stream URL for playback</td></tr>
-                <tr><td class="mono">POST</td><td class="mono">/users/{id}/watchlist</td><td>Add a selected video to a user's saved watchlist</td></tr>
+                <tr><td class="mono">F1</td><td>Authentication</td><td>As a user, I want to log in or register so I can access the platform.</td><td>High</td><td>8</td></tr>
+                <tr><td class="mono">F2</td><td>Purchase a Pack</td><td>As a Partner, I want to purchase a content pack so I can publish videos to my channel.</td><td>High</td><td>13</td></tr>
+                <tr><td class="mono">F3</td><td>Manage Channels</td><td>As a Partner, I want to manage channels so I can organize and publish content.</td><td>High</td><td>8</td></tr>
+                <tr><td class="mono">F4</td><td>Invite Members</td><td>As a Partner, I want to invite members so they can access channel content.</td><td>Medium</td><td>5</td></tr>
+                <tr><td class="mono">F5</td><td>Channel Admin</td><td>As a Channel Admin, I want to manage my assigned channel so I can curate its content.</td><td>Medium</td><td>5</td></tr>
+                <tr><td class="mono">F6</td><td>Manage Profile</td><td>As a Member, I want to manage my profile so my information stays up to date.</td><td>Medium</td><td>3</td></tr>
+                <tr><td class="mono">F7</td><td>Search &amp; View Videos</td><td>As a Member, I want to search and view videos or collections.</td><td>High</td><td>8</td></tr>
+                <tr><td class="mono">F8</td><td>Video Metadata</td><td>As a Speaker, I want to view tags and questions linked to my videos.</td><td>Medium</td><td>3</td></tr>
               </tbody>
             </table>
-            <p class="artifact-note">Illustrative reconstruction for portfolio purposes, reflecting the actual documented contract structure and business intent.</p>
+            <img class="diagram-img" src="Millesima/Global-Use-Case-Diagram.png" alt="MyVioo global use case diagram — 5 actors: Super Admin, Partner, Channel Admin, Member, Speaker">
+            <p class="diagram-caption">MyVioo global use case diagram — 5 actors (Super Admin, Partner, Channel Admin, Member, Speaker), from the PFE report's functional analysis chapter (click to view full size).</p>
+            <table class="doc-table" style="margin-top:18px;">
+              <thead><tr><th colspan="2">UC: Purchase a Pack — textual specification</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">Actors</td><td>Partner, Super Admin (validation), Payment service</td></tr>
+                <tr><td class="mono">Precondition</td><td>Partner is authenticated and has selected a pack from the catalog.</td></tr>
+                <tr><td class="mono">Main flow</td><td>1. Partner selects a pack and chooses a payment method (Bank Card or Transfer). 2. System redirects to payment registration form. 3. Partner submits payment data. 4. Server requests payment validation from the Payment service. 5. On success, Super Admin confirms; Partner is redirected to dashboard.</td></tr>
+                <tr><td class="mono">Exception</td><td>If payment fails, system cancels the transaction and returns a failure notice to the Partner.</td></tr>
+                <tr><td class="mono">Postcondition</td><td>Pack activated on Partner's account; channel publishing rights granted.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <details class="artifact">
+          <summary>View real artifacts: sequence diagram &amp; functional test case <span class="chevron">▶</span></summary>
+          <div class="artifact-body">
+            <p class="artifact-note" style="margin-top:0;">Sequence diagram and functional test case from the MyVioo PFE report. The test case is from the Partner Registration back-office validation suite.</p>
+            <img class="diagram-img" src="Millesima/purchase-pack-sequence.png" alt="Purchase Pack sequence diagram — User, One Page, Server, Payment, Super Admin actors with 16-step Bank Card and Transfer alternative flows">
+            <p class="diagram-caption">Purchase Pack sequence diagram — Bank Card and Transfer alternative flows, 16 steps across User, One Page, Server, Payment, and Super Admin (click to view full size).</p>
+            <table class="doc-table" style="margin-top:18px;">
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">Test Case ID</td><td>TC-01</td></tr>
+                <tr><td class="mono">Feature</td><td>Partner Registration (Back-office)</td></tr>
+                <tr><td class="mono">Precondition</td><td>User is on the registration page; email address not already registered in the system.</td></tr>
+                <tr><td class="mono">Steps</td><td>1. Fill in company name, email, and password. 2. Submit the registration form. 3. System validates inputs and checks for duplicate email.</td></tr>
+                <tr><td class="mono">Expected result</td><td>Account created successfully; confirmation email dispatched; user redirected to the partner dashboard.</td></tr>
+                <tr><td class="mono">Status</td><td>Pass</td></tr>
+              </tbody>
+            </table>
           </div>
         </details>
       </div>
