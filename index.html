@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mohamed Landolsi · Technical Business Analyst</title>
-<meta name="description" content="Technical Business Analyst bridging business objectives with scalable, AI-native SaaS architecture.">
+<title>Mohamed Landolsi · GTM Automation &amp; Integration Engineer</title>
+<meta name="description" content="Portfolio under rebuild. GTM Automation &amp; Integration Engineer building B2B AI workflows, APIs, and n8n pipelines.">
 <link rel="icon" type="image/png" href="portfolio-logo.png">
 <link rel="apple-touch-icon" href="portfolio-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,6 +127,79 @@
   .nav-links a:hover,
   .nav-links a.active{
     transform:translateY(-1px);
+  }
+
+  /* ---------- TEMPORARY REBUILD STATE ---------- */
+  body.temporary-state{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .temporary-state .nav-links{display:none;}
+  .temporary-state .nav-right{margin-left:auto;}
+  .temporary-state .wrap{display:none;}
+  .temporary-card{
+    position:relative;
+    z-index:1;
+    width:min(620px, calc(100% - 48px));
+    margin:auto;
+    padding:72px 0 88px;
+    text-align:center;
+    animation:temporaryReveal .6s ease both;
+  }
+  .temporary-card .eyebrow{justify-content:center;margin-bottom:24px;}
+  .temporary-card h1{
+    max-width:none;
+    font-size:clamp(2rem, 6vw, 3.35rem);
+    line-height:1.08;
+  }
+  .temporary-card .role-line{margin-top:16px;}
+  .temporary-note{
+    max-width:52ch;
+    margin:28px auto 36px;
+    color:var(--paper-dim);
+    font-size:1.04rem;
+  }
+  .temporary-links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .temporary-links a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:112px;
+    padding:11px 18px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:var(--panel);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:.78rem;
+    letter-spacing:.03em;
+    transition:transform .15s ease, background-color .15s ease, border-color .15s ease;
+  }
+  .temporary-links a:hover{
+    background:var(--panel-2);
+    border-color:var(--cyan);
+    text-decoration:none;
+    transform:translateY(-2px);
+  }
+  .temporary-links .primary{
+    background:var(--cyan);
+    border-color:var(--cyan);
+    color:var(--ink-bg);
+  }
+  .temporary-links .primary:hover{background:var(--cyan);color:var(--ink-bg);}
+  @keyframes temporaryReveal{
+    from{opacity:0;transform:translateY(12px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @media (max-width:560px){
+    .temporary-card{padding:48px 0 64px;}
+    .temporary-note{font-size:1rem;}
   }
 
   .theme-toggle{
@@ -1137,7 +1210,7 @@
   }
 </style>
 </head>
-<body>
+<body class="temporary-state">
 
 <div class="bg-grid"></div>
 
@@ -1160,6 +1233,23 @@
     </div>
   </div>
 </nav>
+
+<main class="temporary-card">
+  <div class="eyebrow"><span class="dot"></span>PORTFOLIO UNDER REBUILD</div>
+  <h1>Mohamed Landolsi</h1>
+  <div class="role-line">GTM Automation &amp; Integration Engineer</div>
+  <p class="temporary-note">
+    My portfolio is being rebuilt to reflect my current work: B2B AI workflows,
+    n8n pipelines, and custom API integrations.<br><br>
+    In the meantime, my latest projects and experience are on GitHub and LinkedIn.
+  </p>
+  <div class="temporary-links">
+    <a class="primary" href="https://github.com/mohamedlandolsi" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/mohamedlandolsi" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:mohamedlandolsi300@gmail.com">Email</a>
+    <a href="https://cv.mohamedlandolsi.tech/Mohamed-Landolsi-CV.pdf" target="_blank" rel="noopener">CV</a>
+  </div>
+</main>
 
 <div class="wrap">
 
